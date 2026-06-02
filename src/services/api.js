@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Create a unified Axios instance bound to your development port
 const api = axios.create({
-  baseURL: "http://localhost:3100/api",
+  baseURL: "https://autopay-emx7.onrender.com/api",
   headers: {
     "Content-Type": "application/json",
   },

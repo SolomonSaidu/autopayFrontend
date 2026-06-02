@@ -72,7 +72,7 @@ autopayfrontend/
 
 ## 🔌 API & Communication
 
-The application communicates with a backend server typically hosted at `http://localhost:3100/api`.
+The application communicates with a backend server hosted at `https://autopay-emx7.onrender.com/api`.
 
 ### Authentication
 - **Token Storage**: JWT is stored in `localStorage` under the key `flex_auth_token`.
@@ -98,7 +98,7 @@ In these cases, the application automatically clears the local session and redir
 ## 🔍 Debugging & Maintenance
 
 ### Common Issues
-- **CORS/Connection Errors**: Ensure the backend is running at `http://localhost:3100`. If the backend URL changes, update `src/services/api.js`.
+- **CORS/Connection Errors**: Ensure the backend is running at `https://autopay-emx7.onrender.com`. If the backend URL changes, update `src/services/api.js`.
 - **Auth Loops**: If you are constantly logged out, check if the `flex_auth_token` in localStorage matches what the backend expects.
 - **Environment Variables**: For production deployments, ensure the `baseURL` in `api.js` is correctly configured for the production environment.
 
