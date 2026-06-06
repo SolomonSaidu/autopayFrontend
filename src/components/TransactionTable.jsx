@@ -160,8 +160,8 @@ export default function TransactionTable({ darkMode }) {
             <tr className={`border-b text-[10px] font-bold tracking-wider uppercase ${
               darkMode ? 'bg-zinc-900/40 border-zinc-900 text-zinc-500' : 'bg-zinc-50 border-zinc-100 text-zinc-400'
             }`}>
-              <th className="py-3 px-5">ID</th>
-              <th className="py-3 px-5">Date</th>
+              <th className="py-3 px-5 hidden sm:table-cell">ID</th>
+              <th className="py-3 px-5 hidden md:table-cell">Date</th>
               <th className="py-3 px-5">Description</th>
               <th className="py-3 px-5 text-right">Amount</th>
               <th className="py-3 px-5 text-center">Status</th>
@@ -179,20 +179,25 @@ export default function TransactionTable({ darkMode }) {
                 
                 return (
                   <tr key={tx.id} className="hover:bg-zinc-50/40 dark:hover:bg-zinc-900/10 transition-colors duration-150">
-                    <td className="py-3.5 px-5 font-mono text-[11px] text-zinc-400 font-semibold">#{tx.id}</td>
-                    <td className="py-3.5 px-5 whitespace-nowrap text-zinc-400 font-mono text-[11px]">
+                    <td className="py-3.5 px-5 font-mono text-[11px] text-zinc-400 font-semibold hidden sm:table-cell">#{tx.id}</td>
+                    <td className="py-3.5 px-5 whitespace-nowrap text-zinc-400 font-mono text-[11px] hidden md:table-cell">
                       {tx.created_at ? new Date(tx.created_at).toLocaleString() : 'N/A'}
                     </td>
                     <td className="py-3.5 px-5 font-semibold">
                       <div className="flex items-center gap-2.5">
-                        <div className={`w-5 h-5 rounded-md flex items-center justify-center ${
+                        <div className={`w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0 ${
                           isCredit ? 'bg-emerald-500/10 text-emerald-500' : 'bg-zinc-500/10 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-500'
                         }`}>
                           {isCredit ? <ArrowDownLeft className="w-3.5 h-3.5" /> : <ArrowUpRight className="w-3.5 h-3.5" />}
                         </div>
-                        <span className={`truncate max-w-xs capitalize ${darkMode ? 'text-zinc-200' : 'text-zinc-800'}`}>
-                          {tx.category?.replace('_', ' ') || 'General Transaction'}
-                        </span>
+                        <div className="min-w-0">
+                          <p className={`truncate capitalize ${darkMode ? 'text-zinc-200' : 'text-zinc-800'}`}>
+                            {tx.category?.replace('_', ' ') || 'General'}
+                          </p>
+                          <p className="md:hidden text-[10px] text-zinc-500 font-mono mt-0.5">
+                            {tx.created_at ? new Date(tx.created_at).toLocaleDateString() : 'N/A'}
+                          </p>
+                        </div>
                       </div>
                     </td>
                     <td className={`py-3.5 px-5 text-right font-bold font-mono tracking-tight text-sm ${
@@ -201,7 +206,7 @@ export default function TransactionTable({ darkMode }) {
                       {isCredit ? '+' : '-'}{formatCurrency(tx.amount)}
                     </td>
                     <td className="py-3.5 px-5 text-center whitespace-nowrap">
-                      <span className={`inline-flex items-center px-2.5 py-0.5 text-[10px] font-bold border rounded-md uppercase tracking-wider ${statusStyle}`}>
+                      <span className={`inline-flex items-center px-2 py-0.5 text-[9px] font-bold border rounded-md uppercase tracking-wider ${statusStyle}`}>
                         {tx.status || 'Success'}
                       </span>
                     </td>

@@ -188,29 +188,29 @@ export default function OverviewGrid({ user, stats, schedules = [], loading, err
               );
             }
 
-            return filteredSchedules.map((schedule) => (
-              <div key={schedule.id || schedule._id || Math.random()} className="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs hover:bg-zinc-50/50 dark:hover:bg-zinc-900/30 transition-colors">
+            return filteredSchedules.map((schedule, index) => (
+              <div key={schedule.id || schedule._id || index} className="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs hover:bg-zinc-50/50 dark:hover:bg-zinc-900/30 transition-colors">
                 <div className="flex items-center gap-4">
-                  <div className={`px-2 py-1 rounded text-[10px] font-bold ${
+                  <div className={`hidden xs:block px-2 py-1 rounded text-[10px] font-bold ${
                     darkMode ? 'bg-zinc-900 text-zinc-400 border border-zinc-800' : 'bg-zinc-100 text-zinc-500 border border-zinc-200'
                   }`}>
-                    PAYMENT #{ (schedule.id || schedule._id || '0').toString() }
+                    PAYMENT #{ (schedule.id || schedule._id || '0').toString().slice(-4) }
                   </div>
-                  <div>
-                    <h4 className={`font-semibold tracking-tight ${darkMode ? 'text-zinc-100' : 'text-zinc-800'}`}>{schedule.recipient_name || schedule.destination || 'Unnamed Recipient'}</h4>
-                    <p className="text-[11px] text-zinc-400 mt-0.5">Sent to: <span className={darkMode ? 'text-zinc-300' : 'text-zinc-600'}>{schedule.recipient_account || schedule.account || '302194****'}</span></p>
+                  <div className="flex-1 min-w-0">
+                    <h4 className={`font-semibold tracking-tight truncate ${darkMode ? 'text-zinc-100' : 'text-zinc-800'}`}>{schedule.recipient_name || schedule.destination || 'Unnamed Recipient'}</h4>
+                    <p className="text-[11px] text-zinc-400 mt-0.5 truncate">To: <span className={darkMode ? 'text-zinc-300' : 'text-zinc-600'}>{schedule.recipient_account || schedule.account || '302194****'}</span></p>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between sm:justify-end gap-8">
+                <div className="flex items-center justify-between sm:justify-end gap-6 sm:gap-8">
                   <div className="text-left sm:text-right">
                     <p className={`font-bold tracking-tight text-sm ${darkMode ? 'text-zinc-100' : 'text-zinc-900'}`}>{formatNaira(schedule.amount)}</p>
-                    <p className="text-[10px] text-zinc-400 mt-0.5 capitalize">Repeats {schedule.frequency || schedule.interval || 'once'}</p>
+                    <p className="text-[10px] text-zinc-400 mt-0.5 capitalize">{schedule.frequency || schedule.interval || 'once'}</p>
                   </div>
-                  <div className="text-right hidden sm:block border-l border-zinc-100 dark:border-zinc-900 pl-6">
-                    <p className="text-[10px] font-medium text-zinc-400 uppercase tracking-wider">Next Payment Date</p>
+                  <div className="text-right border-l border-zinc-100 dark:border-zinc-900 pl-4 sm:pl-6">
+                    <p className="text-[10px] font-medium text-zinc-400 uppercase tracking-wider hidden xs:block">Next Run</p>
                     <p className="text-xs font-semibold text-amber-500 mt-0.5">
-                      {schedule.scheduled_date ? new Date(schedule.scheduled_date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : (schedule.next_run || 'TBD')}
+                      {schedule.scheduled_date ? new Date(schedule.scheduled_date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }) : (schedule.next_run || 'TBD')}
                     </p>
                   </div>
                 </div>

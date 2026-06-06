@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import LoginForm from './components/LoginForm';
 import SignUpForm from './components/SignUpForm';
 import Sidebar from './components/Sidebar';
@@ -8,7 +8,7 @@ import TransactionTable from './components/TransactionTable';
 import SettingsView from './components/SettingsView';
 import FundWalletModal from './components/FundWalletModal';
 import { getProfile, getDashboardStats, fetchActiveSchedules } from './services/apiEndpoints'; 
-import { Loader2 } from 'lucide-react';
+import { Loader2, Menu } from 'lucide-react';
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -17,6 +17,7 @@ export default function App() {
   const [activeView, setActiveView] = useState('overview');
   const [darkMode, setDarkMode] = useState(true);
   const [isTopupModalOpen, setIsTopupModalOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   
   const [dashboardData, setDashboardData] = useState({
     stats: null,
@@ -150,13 +151,35 @@ export default function App() {
       
       <Sidebar 
         activeView={activeView} 
-        onViewChange={setActiveView} 
+        onViewChange={(view) => {
+          setActiveView(view);
+          setIsSidebarOpen(false);
+        }} 
         onLogout={handleLogout}
         user={user}
+        isOpen={isSidebarOpen}
+        onClose={() => setIsSidebarOpen(false)}
       />
 
-      <main className={`flex-1 overflow-y-auto p-6 sm:p-8 transition-colors duration-200 ${darkMode ? 'bg-zinc-900/40' : 'bg-zinc-50/50'}`}>
-        <div className="max-w-6xl mx-auto space-y-6 animate-in fade-in duration-150">
+      <main className={`flex-1 overflow-y-auto transition-colors duration-200 ${darkMode ? 'bg-zinc-900/40' : 'bg-zinc-50/50'}`}>
+        
+        {/* Mobile Navbar Header */}
+        <div className="lg:hidden flex items-center justify-between p-4 border-b border-zinc-800 bg-zinc-950 sticky top-0 z-20">
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 rounded-lg bg-white flex items-center justify-center text-zinc-950 font-bold text-xs tracking-tight">
+              F
+            </div>
+            <span className="text-sm font-bold text-white tracking-tight">AutoPay</span>
+          </div>
+          <button 
+            onClick={() => setIsSidebarOpen(true)}
+            className="p-2 text-zinc-400 hover:text-white transition-colors cursor-pointer"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
+        </div>
+
+        <div className="max-w-6xl mx-auto p-4 sm:p-8 space-y-6 animate-in fade-in duration-150">
           
           {activeView === 'overview' && (
             <div className="space-y-6">
