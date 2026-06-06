@@ -1,8 +1,10 @@
 import axios from "axios";
 
-// Create a unified Axios instance bound to your development port
+// Create a unified Axios instance
 const api = axios.create({
-  baseURL: "https://autopay-emx7.onrender.com/api/",
+  // Use relative path in development (handled by Vite proxy) 
+  // and full URL in production to avoid CORS/pathing issues
+  baseURL: import.meta.env.DEV ? "/api/" : "https://autopay-emx7.onrender.com/api/",
   headers: {
     "Content-Type": "application/json",
   },
