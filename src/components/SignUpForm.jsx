@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { signUpUser } from '../services/apiEndpoints';
 import { User, Mail, Lock, AlertCircle, CheckCircle2, Loader2, Eye, EyeOff } from 'lucide-react';
 
@@ -23,7 +23,9 @@ export default function SignUpForm({ onSuccess, onSwitchToLogin }) {
         onSuccess();
       }, 2000);
     } catch (err) {
-      setError(err.response?.data?.message || 'Registration failed. Please try again.');
+      const serverMessage = err.response?.data?.message || err.response?.data?.error;
+      setError(serverMessage || 'Registration failed. Please try again.');
+      console.error("Registration error details:", err.response?.data || err.message);
     } finally {
       setLoading(false);
     }

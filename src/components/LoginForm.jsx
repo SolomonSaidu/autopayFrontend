@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { loginUser } from '../services/apiEndpoints';
 import { Lock, Mail, AlertCircle, Loader2, Eye, EyeOff } from 'lucide-react';
 
@@ -18,7 +18,9 @@ export default function LoginForm({ onSuccess, onSwitchToSignUp }) {
       const response = await loginUser({ email, password });
       onSuccess(response);
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed. Please check your email and password.');
+      const serverMessage = err.response?.data?.message || err.response?.data?.error;
+      setError(serverMessage || 'Login failed. Please check your email and password.');
+      console.error("Login error details:", err.response?.data || err.message);
     } finally {
       setLoading(false);
     }

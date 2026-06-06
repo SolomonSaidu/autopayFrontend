@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Create a unified Axios instance bound to your development port
 const api = axios.create({
-  baseURL: "https://autopay-emx7.onrender.com/api",
+  baseURL: "https://autopay-emx7.onrender.com/api/",
   headers: {
     "Content-Type": "application/json",
   },
@@ -16,7 +16,8 @@ const api = axios.create({
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("flex_auth_token");
-    if (token) {
+    // Only attach the token if it exists and we aren't hitting public auth routes
+    if (token && !config.url.includes("users/login") && !config.url.includes("users/register")) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
