@@ -2,9 +2,9 @@ import axios from "axios";
 
 // Create a unified Axios instance
 const api = axios.create({
-  // Use relative path in development (handled by Vite proxy) 
-  // and full URL in production to avoid CORS/pathing issues
-  baseURL: import.meta.env.DEV ? "/api/" : "https://autopay-emx7.onrender.com/api/",
+  // Use relative path /api/ for both local (Vite proxy) and production (Vercel rewrite)
+  // This bypasses CORS issues by making API calls appear as same-origin requests.
+  baseURL: "/api/",
   headers: {
     "Content-Type": "application/json",
   },
